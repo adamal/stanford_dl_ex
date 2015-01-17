@@ -10,6 +10,10 @@ function [f,g] = linear_regression(theta, X,y)
   m=size(X,2);
   n=size(X,1);
 
+  % vectors should be columns for transpose to work as intended below
+  if isrow(theta) theta = theta'; end
+  if isrow(y) y = y'; end
+
   f=0;
   g=zeros(size(theta));
 
@@ -22,3 +26,15 @@ function [f,g] = linear_regression(theta, X,y)
   %        computed gradient in 'g'.
   
 %%% YOUR CODE HERE %%%
+
+%%% J(theta) %%%
+% equation for cost function: 
+% J(theta) = 0.5*sum(theta'*X(:,j)-y(j))
+
+% loop over examples
+for j = 1:size(X,2)
+  xj = X(:,j);
+  f  = f+ ( theta'*xj - y(j) )^2;
+  g  = g+ xj*( theta'*xj - y(j) );
+end
+f = 0.5*f; 
